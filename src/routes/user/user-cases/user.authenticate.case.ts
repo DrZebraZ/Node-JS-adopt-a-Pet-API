@@ -17,15 +17,12 @@ export class UserAuthenticateCase {
     if(resultValidation.hasError()){
       return
     }
-    console.log(resultValidation.getResult())
     if(resultValidation.isResultEmpty()){
-      console.log("Result Empty")
       this._GENERIC_LOGIN_ERROR(resultValidation)
       return
     }
     
     const doesPasswordMatches = await compare(password, resultValidation.getResult().data.password)
-    console.log(doesPasswordMatches)
     if(!doesPasswordMatches){
       this._GENERIC_LOGIN_ERROR(resultValidation)
       return
@@ -49,7 +46,7 @@ export class UserAuthenticateCase {
   }
 
   private _GENERIC_LOGIN_ERROR(resultValidation: ResultValidation){
-    resultValidation.addError(ERROR_TYPES.GENERIC_LOGIN_ERROR.TAG, ERROR_TYPES.GENERIC_LOGIN_ERROR.MESSAGE)
+    resultValidation.addError(ERROR_TYPES.user.GENERIC_LOGIN_ERROR.TAG, ERROR_TYPES.user.GENERIC_LOGIN_ERROR.MESSAGE)
     return
   }
 }

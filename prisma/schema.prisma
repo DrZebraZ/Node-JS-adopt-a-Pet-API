@@ -23,14 +23,14 @@ model User {
 }
 
 model Pet {
-  id           String @id @unique
+  id           String   @id @unique
   name         String
   description  String
   age          Int
   energy       String
   size         String
-  space        String
-  requirements String
+  independency String
+  requirements String[]
 
   userId String?
   User   User?   @relation(fields: [userId], references: [id])

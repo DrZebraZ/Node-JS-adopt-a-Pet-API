@@ -16,7 +16,7 @@ export class PrismaUserRepository implements UserRepository{
         result != null ? resultValidation.setResult({data: result}): "" ;
       })
     }catch(err){
-      resultValidation.addError(ERROR_TYPES.SELECT_ERROR.TAG, ERROR_TYPES.SELECT_ERROR.MESSAGE, true, err)
+      resultValidation.addError(ERROR_TYPES.database.SELECT_ERROR.TAG, ERROR_TYPES.database.SELECT_ERROR.MESSAGE, true, err)
     }
   }
 
@@ -25,10 +25,10 @@ export class PrismaUserRepository implements UserRepository{
       await prisma.user.create({
         data: data
       }).then(result => 
-        result != null ? resultValidation.setResult({data:"done!"}): resultValidation.addError(ERROR_TYPES.CREATE_USER_ERROR.TAG, ERROR_TYPES.CREATE_USER_ERROR.MESSAGE)
+        result != null ? resultValidation.setResult({data:"done!"}): resultValidation.addError(ERROR_TYPES.user.CREATE_USER_ERROR.TAG, ERROR_TYPES.user.CREATE_USER_ERROR.MESSAGE)
       )
     }catch(err){
-      resultValidation.addError(ERROR_TYPES.INSERT_ERROR.TAG, ERROR_TYPES.INSERT_ERROR.MESSAGE, true, err)
+      resultValidation.addError(ERROR_TYPES.database.INSERT_ERROR.TAG, ERROR_TYPES.database.INSERT_ERROR.MESSAGE, true, err)
     }
   }
 }

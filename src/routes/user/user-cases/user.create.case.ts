@@ -15,7 +15,7 @@ export class UserCreateCase{
     }
     
     if (resultValidation.getResult().data?.id){  
-      resultValidation.addError(ERROR_TYPES.EMAIL_ALREADY_EXISTS.TAG, ERROR_TYPES.EMAIL_ALREADY_EXISTS.MESSAGE)
+      resultValidation.addError(ERROR_TYPES.user.EMAIL_ALREADY_EXISTS.TAG, ERROR_TYPES.user.EMAIL_ALREADY_EXISTS.MESSAGE)
       return
     }
 

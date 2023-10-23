@@ -16,14 +16,14 @@ class FakeRepository implements UserRepository{
     try{
       throw new Error('STOP')
     }catch(err){
-      resultValidation.addError(ERROR_TYPES.SELECT_ERROR.TAG, ERROR_TYPES.SELECT_ERROR.MESSAGE, true, err)
+      resultValidation.addError(ERROR_TYPES.database.SELECT_ERROR.TAG, ERROR_TYPES.database.SELECT_ERROR.MESSAGE, true, err)
     } 
   }
   async create(data: Prisma.UserCreateInput, resultValidation: ResultValidation): Promise<void> {
     try{
       throw new Error('STOP')
     }catch(err){
-      resultValidation.addError(ERROR_TYPES.INSERT_ERROR.TAG, ERROR_TYPES.INSERT_ERROR.MESSAGE, true, err)
+      resultValidation.addError(ERROR_TYPES.database.INSERT_ERROR.TAG, ERROR_TYPES.database.INSERT_ERROR.MESSAGE, true, err)
     } 
   }
 } 
@@ -65,13 +65,13 @@ describe('Create new user Case', () => {
     userRepository = new FakeRepository()
     sut = new UserCreateCase(userRepository)
     await sut.execute(userCreate, resultValidation)
-    expect(resultValidation.findErrorByTags([ERROR_TYPES.SELECT_ERROR.TAG])).toEqual(true)
+    expect(resultValidation.findErrorByTags([ERROR_TYPES.database.SELECT_ERROR.TAG])).toEqual(true)
   })
 
   it('should throw error cause email already used', async () => {
     await sut.execute(userCreate, resultValidation)
     await sut.execute(userCreate, resultValidation)
-    expect(resultValidation.findErrorByTags([ERROR_TYPES.EMAIL_ALREADY_EXISTS.TAG])).toEqual(true)
+    expect(resultValidation.findErrorByTags([ERROR_TYPES.user.EMAIL_ALREADY_EXISTS.TAG])).toEqual(true)
   })
   
 })
@@ -104,7 +104,7 @@ describe('Authenticate user Case', () => {
       email: 'test@test.com',
       password: '1234567'
     },resultValidation)
-    expect(resultValidation.findErrorByTags([ERROR_TYPES.GENERIC_LOGIN_ERROR.TAG])).toEqual(true)
+    expect(resultValidation.findErrorByTags([ERROR_TYPES.user.GENERIC_LOGIN_ERROR.TAG])).toEqual(true)
   })
 
   it('should not login cause wrong email', async()=>{
@@ -114,7 +114,7 @@ describe('Authenticate user Case', () => {
       email: 'error@test.com',
       password: '12345678'
     },resultValidation)
-    expect(resultValidation.findErrorByTags([ERROR_TYPES.GENERIC_LOGIN_ERROR.TAG])).toEqual(true)
+    expect(resultValidation.findErrorByTags([ERROR_TYPES.user.GENERIC_LOGIN_ERROR.TAG])).toEqual(true)
   })
 
   it('should return select error in database', async()=>{
@@ -125,7 +125,7 @@ describe('Authenticate user Case', () => {
       email: 'test@test.com',
       password: '12345678'
     }, resultValidation)
-    expect(resultValidation.findErrorByTags([ERROR_TYPES.SELECT_ERROR.TAG])).toEqual(true)
+    expect(resultValidation.findErrorByTags([ERROR_TYPES.database.SELECT_ERROR.TAG])).toEqual(true)
   })
 
 })
